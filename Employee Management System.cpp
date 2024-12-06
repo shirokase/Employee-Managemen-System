@@ -25,7 +25,7 @@ void display() {
     cout << "==========================================================================\n";
     cout << "||\t\t\t1. Add New Employee's\t\t\t\t||\n";
     cout << "||\t\t\t2. Display All Employees\t\t\t||\n";
-    cout << "||\t\t\t3. Search Employee's by ID Number\t\t||\n";
+    cout << "||\t\t\t3. Search Employee's Information by ID Number\t||\n";
     cout << "||\t\t\t4. Update Employee's Position & Salary\t\t||\n";
     cout << "||\t\t\t5. Remove Employee's\t\t\t\t||\n";
     cout << "||\t\t\t6. Exit\t\t\t\t\t\t||\n";
@@ -130,6 +130,8 @@ void displayEmployees() {
     }
 
     cout << "-------------------------------------------------------------------------\n";
+    cout << "|\t\t\tAll Employees Information\t\t\t|\n";
+    cout << "-------------------------------------------------------------------------\n";
     cout << "|\t" << left << setw(10) << "ID" 
          << setw(20) << "Name" 
          << setw(20) << "Position" 
@@ -143,7 +145,7 @@ void displayEmployees() {
              << setw(20) << employeeNames[i]
              << setw(20) << employeePosition[i]
              << fixed << setprecision(2) << "₱" << employeeSalary[i] 
-            << "\t|" << endl;
+             << "\t|" << endl;
     }
 
     cout << "-------------------------------------------------------------------------\n";
@@ -154,13 +156,26 @@ void displayEmployee(int employeeId) {
     if (index == -1) {
         cout << "Employee with ID " << employeeId << " not found.\n";
     } else {
-        cout << fixed << setprecision(2) 
-             << "Employee ID: " 
+         cout << "-------------------------------------------------------------------------\n";
+         cout << "|\t\t\tEmployee's Information\t\t\t\t|\n";
+         cout << "-------------------------------------------------------------------------\n";
+         cout << "|\t" << left << setw(10) << "ID" 
+         << setw(20) << "Name" 
+         << setw(20) << "Position" 
+         << setw(7) << "Salary"
+         << "\t|\n";
+         cout << "-------------------------------------------------------------------------\n";
+
+
+         cout << "|\t" << left << setw(10)
              << employeeIds[index] 
-             << ", Name: " << employeeNames[index] 
-             << ", Position: " << employeePosition[index]
-             << ", Salary: ₱" << employeeSalary[index] << '\n';
+             << setw(20) << employeeNames[index] 
+             << setw(20)  << employeePosition[index]
+             << fixed << setprecision(2)  << "₱" << employeeSalary[index]
+             << "\t\t|" << endl;
+            
     }
+    cout << "-------------------------------------------------------------------------\n";
 }
 
 int searchEmployee(int employeeId, int index) {
@@ -253,4 +268,6 @@ int main() {
     }
     return 0;
 }
+
+
 
