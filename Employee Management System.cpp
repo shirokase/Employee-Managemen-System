@@ -1,18 +1,19 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <algorithm>
+#include <vector>
+
 using namespace std;
 
-const int MAX_EMPLOYEE = 50;
+vector<int> employeeIds;
+vector<string> employeeNames;
+vector<string> employeePosition;
+vector<double> employeeSalary;
 
-int employeeIds[MAX_EMPLOYEE];
-string employeeNames[MAX_EMPLOYEE];
-string employeePosition[MAX_EMPLOYEE];
-double employeeSalary[MAX_EMPLOYEE];
-int employeeCount = 0;
-
-void addEmployee(); 
+void addEmployee();
 void displayEmployees();
+void sortEmployees();
 void displayEmployee(int employeeId);
 void updateEmployee(int employeeId);
 void deleteEmployee(int employeeId);
@@ -25,7 +26,7 @@ void display() {
     cout << "||\t\t\t1. Add New Employee's\t\t\t\t||\n";
     cout << "||\t\t\t2. Display All Employees\t\t\t||\n";
     cout << "||\t\t\t3. Search Employee's by ID Number\t\t||\n";
-    cout << "||\t\t\t4. Modify Employee's Position & Salary\t\t||\n";
+    cout << "||\t\t\t4. Update Employee's Position & Salary\t\t||\n";
     cout << "||\t\t\t5. Remove Employee's\t\t\t\t||\n";
     cout << "||\t\t\t6. Exit\t\t\t\t\t\t||\n";
     cout << "==========================================================================\n";
@@ -33,57 +34,119 @@ void display() {
 }
 
 void addEmployee() {
-    if (employeeCount >= MAX_EMPLOYEE) {
-        cout << "Error: Maximum employee's limit has been REACHED!.\n";
-        return;
-    }{
-
     cout << "Enter Employee's ID Number: ";
-    cin >> employeeIds[employeeCount];
-    while (employeeIds[employeeCount] < 0 || employeeIds[employeeCount] > 99) {
-        cout << "Invalid Input!!!\nEmployee's ID must be a 2-digit number only\n";
-        cout << "Enter Employee's ID Number: ";
-        cin >> employeeIds[employeeCount];
-    }
-    for (int i = 0; i < employeeCount; ++i) {
-        if (employeeIds[i] == employeeIds[employeeCount]) {
-            cout << "Error the Employee ID " << employeeIds[employeeCount] << " is already exists. Please enter a unique ID.\n";
-            return; 
-        }
-    }
-    
-    cin.ignore();
+    int employeeId;
 
+    while (true) {
+        cin >> employeeId;
+
+        if (cin.fail()) {
+            cin.clear();  
+            cin.ignore(1000, '\n');  
+            cout << "Invalid input! Employee's ID must be a number. Please enter again: ";
+            continue;
+        }   
+
+       bool exists = false;
+        for (int existingId : employeeIds) {
+        if (existingId == employeeId) {
+            exists = true;
+            break;
+        }
+     }
+
+         if (exists) {
+        cout << "Error: Employee ID " << employeeId 
+             << " already exists. Please enter another ID: ";
+     } else {
+    
+        break;
+      }
+    }
+
+    employeeIds.push_back(employeeId);
+
+    cin.ignore();
     cout << "Enter Employee's Name: ";
-    getline(cin, employeeNames[employeeCount]);
+    string name;
+
+    while (true) {
+        getline(cin, name);
+        bool namevalid = true;
+        for (char a : name) {
+         if (!( (a >= 'A' && a <= 'Z') || (a >= 'a' && a <= 'z') || a == ' ' )) {
+            namevalid = false;
+
+            break;
+        }
+      }
+
+      if(namevalid){
+        employeeNames.push_back(name);
+
+        break;
+
+      } else{
+        cout << "Error: Name must contain only letters and space: ";
+      }
+    }
 
     cout << "Enter Employee's Position: ";
-    getline(cin,employeePosition[employeeCount]);
+    string position;
+    getline(cin, position);
+    employeePosition.push_back(position);
 
     cout << "Enter Employee's Salary: ";
-    cin >> employeeSalary[employeeCount];
-    while (employeeSalary[employeeCount] < 0) {
-        cin.ignore();
-        cout << "Invalid Salary!!!\nPlease Enter a Positive Number\n";
+    double salary;
+    cin >> salary;
+    while (salary < 0) {
+        cout << "Invalid Salary!!! Please enter a positive number.\n";
         cout << "Enter Employee's Salary: ";
-        cin >> employeeSalary[employeeCount];
+        cin >> salary;
     }
+    employeeSalary.push_back(salary);
 
-    employeeCount++;
-    cout << "Employee's has been added successfully!\n";
+    sortEmployees();
+    cout << "Employee has been added successfully!\n";
+}
+
+void sortEmployees() {
+    for (int i = 0; i < employeeIds.size() - 1; ++i) {
+        for (int j = 0; j < employeeIds.size() - i - 1; ++j) {
+            if (employeeIds[j] > employeeIds[j + 1]) {
+                swap(employeeIds[j], employeeIds[j + 1]);
+                swap(employeeNames[j], employeeNames[j + 1]);
+                swap(employeePosition[j], employeePosition[j + 1]);
+                swap(employeeSalary[j], employeeSalary[j + 1]);
+            }
+        }
     }
 }
 
 void displayEmployees() {
-    if (employeeCount == 0) {
+    if (employeeIds.empty()) {
         cout << "No employees to display.\n";
         return;
     }
 
-    for (int i = 0; i < employeeCount; ++i) {
-        cout << fixed << setprecision(2) << "Employee's ID: " << employeeIds[i] << ", Name: " << employeeNames[i] << ", Position: " << employeePosition[i] << ", Salary: ₱" << employeeSalary[i] << '\n';
-            
+    cout << "-------------------------------------------------------------------------\n";
+    cout << "|\t" << left << setw(10) << "ID" 
+         << setw(20) << "Name" 
+         << setw(20) << "Position" 
+         << setw(7) << "Salary"
+         << "\t|\n";
+    cout << "-------------------------------------------------------------------------\n";
+
+    for (int i = 0; i < employeeIds.size(); ++i) {
+        cout << "|\t" << left << setw(10)
+             << employeeIds[i]
+             << setw(20) << employeeNames[i]
+             << setw(20) << employeePosition[i]
+             << fixed << setprecision(2) << "₱" << employeeSalary[i] 
+            << "\t|" << endl;
     }
+
+    cout << "-------------------------------------------------------------------------\n";
 }
 
 void displayEmployee(int employeeId) {
@@ -91,13 +154,17 @@ void displayEmployee(int employeeId) {
     if (index == -1) {
         cout << "Employee with ID " << employeeId << " not found.\n";
     } else {
-        cout << fixed << setprecision(2) << "Employee ID: " << employeeIds[index] << ", Name: " << employeeNames[index] << ", Position: " << employeePosition[index] << ", Salary: ₱" << employeeSalary[index] << '\n';
-                
+        cout << fixed << setprecision(2) 
+             << "Employee ID: " 
+             << employeeIds[index] 
+             << ", Name: " << employeeNames[index] 
+             << ", Position: " << employeePosition[index]
+             << ", Salary: ₱" << employeeSalary[index] << '\n';
     }
 }
 
 int searchEmployee(int employeeId, int index) {
-    if (index >= employeeCount) {
+    if (index >= employeeIds.size()) {
         return -1;  // Not found
     }
     if (employeeIds[index] == employeeId) {
@@ -124,33 +191,29 @@ void updateEmployee(int employeeId) {
 
     if (newSalary >= 0) {
         employeeSalary[index] = newSalary;
-        cout << fixed << setprecision(2) << "Salary has been updated successfully! The New Salary is: ₱" << employeeSalary[index] << '\n';
+        cout << fixed << setprecision(2) 
+             << "Salary has been updated successfully! The New Salary is: ₱" 
+             << employeeSalary[index] << '\n';
     } else {
         cout << "Invalid salary.\n";
     }
 }
 
-// Delete an employee
 void deleteEmployee(int employeeId) {
     int index = searchEmployee(employeeId);
     if (index == -1) {
-        cout << "Employee with ID " << employeeIds << " not found.\n";
+        cout << "Employee with ID " << employeeId << " not found.\n";
         return;
     }
 
-    // Shift all employees after the deleted one
-    for (int i = index; i < employeeCount - 1; ++i) {
-        employeeIds[i] = employeeIds[i + 1];
-        employeeNames[i] = employeeNames[i + 1];
-        employeePosition[i] = employeePosition[i + 1];
-        employeeSalary[i] = employeeSalary[i + 1];
-    }
+    // Remove the employee from the vectors
+    employeeIds.erase(employeeIds.begin() + index);
+    employeeNames.erase(employeeNames.begin() + index);
+    employeePosition.erase(employeePosition.begin() + index);
+    employeeSalary.erase(employeeSalary.begin() + index);
 
-    employeeCount--;
     cout << "Employee has been deleted successfully!\n";
 }
-
-using namespace std;
 
 int main() {
     int choice, employeeId;
@@ -190,3 +253,4 @@ int main() {
     }
     return 0;
 }
+
