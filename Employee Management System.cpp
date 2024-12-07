@@ -56,8 +56,8 @@ void addEmployee() {
      }
 
          if (exists) {
-        cout << "Error: Employee ID " << employeeId 
-             << " already exists. Please enter another ID: ";
+             cout << "Error: Employee ID " << employeeId 
+                  << " already exists. Please enter another ID: ";
      } else {
     
         break;
@@ -74,7 +74,7 @@ void addEmployee() {
         getline(cin, name);
         bool namevalid = true;
         for (char a : name) {
-         if (!( (a >= 'A' && a <= 'Z') || (a >= 'a' && a <= 'z') || a == ' ' )) {
+         if (!( (a >= 'A' && a <= 'Z') || (a >= 'a' && a <= 'z') || a == ' ' || a == '.' || a == ',')) {
             namevalid = false;
 
             break;
@@ -87,13 +87,97 @@ void addEmployee() {
         break;
 
       } else{
-        cout << "Error: Name must contain only letters and space: ";
+        cout << "Error: Name must contain only letters, space, dot, and comma: ";
       }
     }
 
-    cout << "Enter Employee's Position: ";
+    cout << "|--------------------------------------------------------------------------------------|";
+    cout << "|\t\t\tEmployee's Positions\t\t\t|";
+    cout << "1. Intern\t\t6. Department head\t\t11. Human resources manager\n";
+    cout << "2. Junior staffer\t\t7. Executive assistant\t\t12. Human resources manager\n";
+    cout << "3. Senior staffer\t\t8. Sales manager\t\t13. Human resources manager\n";
+    cout << "4. Team leader\t\t9. Product manager\t\t14. Human resources manager\n";
+    cout << "5. Department specialist\t\t10. Marketing manager\t\t15. Human resources manager\n";
+    cout << "|--------------------------------------------------------------------------------------|";
+    cout << "Enter your Selected Employee's Position";
+    
+    
+    int selectposition;
     string position;
-    getline(cin, position);
+    while (true) {
+        cin >> selectposition;
+        if (cin.fail() || selectposition < 1 || selectposition > 15) {
+            cin.clear();  
+            cin.ignore(1000, '\n'); 
+            cout << "Invalid choice! Please select a valid Option! (1-15): ";
+
+        } else {
+            switch (selectposition)
+            {
+            case 1:
+               position = "Intern";
+                break;
+
+            case 2:
+               position = "Intern";
+                break;
+
+            case 3:
+               position = "Intern";
+                break;
+            case 4:
+               position = "Intern";
+                break;
+
+            case 5:
+               position = "Intern";
+                break;
+
+            case 6:
+               position = "Intern";
+                break;
+            
+            case 7:
+               position = "Intern";
+                break;
+
+            case 8:
+               position = "Intern";
+                break;
+
+            case 9:
+               position = "Intern";
+                break;
+            case 10:
+               position = "Intern";
+                break;
+
+            case 11:
+               position = "Intern";
+                break;
+
+            case 12:
+               position = "Intern";
+                break;
+
+            case 13:
+               position = "Intern";
+                break;
+
+            case 14:
+               position = "Intern";
+                break;
+
+            case 15:
+               position = "Intern";
+                break;
+
+            }
+            break;
+        }
+      cout << "|--------------------------------------------------------------------------------------|";
+    }
+    
     employeePosition.push_back(position);
 
     cout << "Enter Employee's Salary: ";
@@ -137,6 +221,7 @@ void displayEmployees() {
          << setw(20) << "Position" 
          << setw(7) << "Salary"
          << "\t|\n";
+
     cout << "-------------------------------------------------------------------------\n";
 
     for (int i = 0; i < employeeIds.size(); ++i) {
@@ -180,12 +265,12 @@ void displayEmployee(int employeeId) {
 
 int searchEmployee(int employeeId, int index) {
     if (index >= employeeIds.size()) {
-        return -1;  // Not found
+        return -1; 
     }
     if (employeeIds[index] == employeeId) {
-        return index;  // Found
+        return index;  
     }
-    return searchEmployee(employeeId, index + 1);  // Recursive call
+    return searchEmployee(employeeId, index + 1); 
 }
 
 // Update an employee's salary
