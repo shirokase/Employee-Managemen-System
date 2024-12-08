@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <algorithm>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -12,31 +13,31 @@ vector<string> employeePosition;
 vector<double> employeeSalary;
 
 void addEmployee();
-void displayEmployees();
 void sortEmployees();
+void displayEmployees();
 void displayEmployee(int employeeId);
 void updateEmployee(int employeeId);
 void deleteEmployee(int employeeId);
-int searchEmployee(int employeeId, int index = 0);  
+int searchEmployee(int employeeId, int find = 0);  
 
 void display() {
     cout << "==========================================================================\n";
     cout << "||\t\t\tEmployee Management System\t\t\t||\n";
     cout << "==========================================================================\n";
     cout << "||\t\t\t1. Add New Employee's\t\t\t\t||\n";
-    cout << "||\t\t\t2. Display All Employees\t\t\t||\n";
+    cout << "||\t\t\t2. Display All Employee's\t\t\t||\n";
     cout << "||\t\t\t3. Search Employee's Information by ID Number\t||\n";
     cout << "||\t\t\t4. Update Employee's Position & Salary\t\t||\n";
-    cout << "||\t\t\t5. Remove Employee's\t\t\t\t||\n";
-    cout << "||\t\t\t6. Exit\t\t\t\t\t\t||\n";
+    cout << "||\t\t\t5. Remove Employee\t\t\t\t||\n";
+    cout << "||\t\t\t6. Save & Exit as a Text File\t\t\t||\n";
     cout << "==========================================================================\n";
     cout << "Please Enter your choice (1-6): ";
+
 }
 
 void addEmployee() {
     cout << "Enter Employee's ID Number: ";
     int employeeId;
-
     while (true) {
         cin >> employeeId;
 
@@ -91,104 +92,60 @@ void addEmployee() {
       }
     }
 
-    cout << "|--------------------------------------------------------------------------------------|";
-    cout << "|\t\t\tEmployee's Positions\t\t\t|";
-    cout << "1. Intern\t\t6. Department head\t\t11. Human resources manager\n";
-    cout << "2. Junior staffer\t\t7. Executive assistant\t\t12. Human resources manager\n";
-    cout << "3. Senior staffer\t\t8. Sales manager\t\t13. Human resources manager\n";
-    cout << "4. Team leader\t\t9. Product manager\t\t14. Human resources manager\n";
-    cout << "5. Department specialist\t\t10. Marketing manager\t\t15. Human resources manager\n";
-    cout << "|--------------------------------------------------------------------------------------|";
-    cout << "Enter your Selected Employee's Position";
+    cout << "---------------------------------------------------------------------------------------------------------\n";
+    cout << "|\t\t\t\t\tEmployee's Positions\t\t\t\t\t\t|\n";
+    cout << "|-------------------------------------------------------------------------------------------------------|\n";
+    cout << "|\t1. Intern\t\t\t6. Department Head\t\t11. Human resources manager\t|\n";
+    cout << "|\t2. Junior Staff\t\t\t7. Executive Assistant\t\t12. Sales Representative\t|\n";
+    cout << "|\t3. Senior Staff\t\t\t8. Sales Manager\t\t13. Business Analyst\t\t|\n";
+    cout << "|\t4. Team Leader\t\t\t9. Product Manager\t\t14. Assistant Manager\t\t|\n";
+    cout << "|\t5. Department Specialist\t10. Marketing Manager\t\t15. Data Analyst\t\t|\n";
+    cout << "---------------------------------------------------------------------------------------------------------\n";
+    cout << " Enter the choice of Employee's Position (1-15): ";
     
-    
-    int selectposition;
+    int selectPosition;
     string position;
+
     while (true) {
-        cin >> selectposition;
-        if (cin.fail() || selectposition < 1 || selectposition > 15) {
-            cin.clear();  
-            cin.ignore(1000, '\n'); 
-            cout << "Invalid choice! Please select a valid Option! (1-15): ";
+        cin >> selectPosition;
+            if (cin.fail() || selectPosition < 1 || selectPosition > 15) {
+                cin.clear();
+                cin.ignore(1000, '\n');
+                cout << "Invalid choice! Please select a Valid Position (1-15): ";
+            } else {
 
-        } else {
-            switch (selectposition)
-            {
-            case 1:
-               position = "Intern";
-                break;
-
-            case 2:
-               position = "Intern";
-                break;
-
-            case 3:
-               position = "Intern";
-                break;
-            case 4:
-               position = "Intern";
-                break;
-
-            case 5:
-               position = "Intern";
-                break;
-
-            case 6:
-               position = "Intern";
-                break;
-            
-            case 7:
-               position = "Intern";
-                break;
-
-            case 8:
-               position = "Intern";
-                break;
-
-            case 9:
-               position = "Intern";
-                break;
-            case 10:
-               position = "Intern";
-                break;
-
-            case 11:
-               position = "Intern";
-                break;
-
-            case 12:
-               position = "Intern";
-                break;
-
-            case 13:
-               position = "Intern";
-                break;
-
-            case 14:
-               position = "Intern";
-                break;
-
-            case 15:
-               position = "Intern";
+                vector<string> positions = {
+                    "Intern", "Junior Staff", "Senior Staff", "Team Leader", "Department Specialist",
+                    "Department Head", "Executive Assistant", "Sales Manager", "Product Manager",
+                    "Marketing Manager", "Human Resources Manager", "Sales Representative",
+                    "Business Analyst", "Assistant Manager", "Data Analyst"
+                };
+                 position = positions[selectPosition - 1];
                 break;
 
             }
-            break;
-        }
-      cout << "|--------------------------------------------------------------------------------------|";
+        
     }
-    
+
+    cout << "-----------------------------------------------------------\n";
+    cout << " The Position of '" << position << "' has been added.\n";
+    cout << "-----------------------------------------------------------\n";
     employeePosition.push_back(position);
+   
 
     cout << "Enter Employee's Salary: ";
     double salary;
+    while (true) {
     cin >> salary;
-    while (salary < 0) {
-        cout << "Invalid Salary!!! Please enter a positive number.\n";
-        cout << "Enter Employee's Salary: ";
-        cin >> salary;
+    if (cin.fail() || salary < 0) {
+        cin.clear();
+        cin.ignore(1000, '\n');
+        cout << "Invalid salary! Please enter a valid positive number: ";
+    } else {
+        break;
     }
-    employeeSalary.push_back(salary);
+}
+employeeSalary.push_back(salary);
 
     sortEmployees();
     cout << "Employee has been added successfully!\n";
@@ -213,112 +170,167 @@ void displayEmployees() {
         return;
     }
 
-    cout << "-------------------------------------------------------------------------\n";
-    cout << "|\t\t\tAll Employees Information\t\t\t|\n";
-    cout << "-------------------------------------------------------------------------\n";
-    cout << "|\t" << left << setw(10) << "ID" 
+    cout << "-----------------------------------------------------------------------\n";
+    cout << "|                       Employees Information                           |\n";
+    cout << "|-----------------------------------------------------------------------|\n";
+    cout << "| " << left << setw(5) << "No"  
+         << setw(10) << "ID" 
          << setw(20) << "Name" 
          << setw(20) << "Position" 
-         << setw(7) << "Salary"
+         << setw(12) << "Salary"
          << "\t|\n";
+    cout << "|-----------------------------------------------------------------------|\n";
 
-    cout << "-------------------------------------------------------------------------\n";
-
-    for (int i = 0; i < employeeIds.size(); ++i) {
-        cout << "|\t" << left << setw(10)
-             << employeeIds[i]
+    for (size_t i = 0; i < employeeIds.size(); ++i) {
+        cout << "| " << left << setw(5) << i + 1   
+             << setw(10) << employeeIds[i]
              << setw(20) << employeeNames[i]
              << setw(20) << employeePosition[i]
-             << fixed << setprecision(2) << "₱" << employeeSalary[i] 
-             << "\t|" << endl;
+             << "₱" << fixed << setprecision(2) << setw(10) << employeeSalary[i]
+             << "\t|\n";
     }
 
     cout << "-------------------------------------------------------------------------\n";
 }
 
 void displayEmployee(int employeeId) {
-    int index = searchEmployee(employeeId);
-    if (index == -1) {
+    int find = searchEmployee(employeeId);
+    if (find == -1) {
         cout << "Employee with ID " << employeeId << " not found.\n";
     } else {
          cout << "-------------------------------------------------------------------------\n";
          cout << "|\t\t\tEmployee's Information\t\t\t\t|\n";
-         cout << "-------------------------------------------------------------------------\n";
+         cout << "|-----------------------------------------------------------------------|\n";
          cout << "|\t" << left << setw(10) << "ID" 
          << setw(20) << "Name" 
          << setw(20) << "Position" 
-         << setw(7) << "Salary"
-         << "\t|\n";
-         cout << "-------------------------------------------------------------------------\n";
+         << setw(14) << "Salary"
+         << "|\n";
+         cout << "|-----------------------------------------------------------------------|\n";
 
 
          cout << "|\t" << left << setw(10)
-             << employeeIds[index] 
-             << setw(20) << employeeNames[index] 
-             << setw(20)  << employeePosition[index]
-             << fixed << setprecision(2)  << "₱" << employeeSalary[index]
-             << "\t\t|" << endl;
+             << employeeIds[find] 
+             << setw(20) << employeeNames[find] 
+             << setw(20)  << employeePosition[find]
+             << fixed << setprecision(2)  << "₱" << employeeSalary[find]
+             << "\t|" << endl;
             
     }
     cout << "-------------------------------------------------------------------------\n";
+
 }
 
-int searchEmployee(int employeeId, int index) {
-    if (index >= employeeIds.size()) {
+int searchEmployee(int employeeId, int find) {
+    if (find >= employeeIds.size()) {
         return -1; 
     }
-    if (employeeIds[index] == employeeId) {
-        return index;  
+    if (employeeIds[find] == employeeId) {
+        return find;  
     }
-    return searchEmployee(employeeId, index + 1); 
+    return searchEmployee(employeeId, find + 1); 
 }
 
-// Update an employee's salary
 void updateEmployee(int employeeId) {
-    int index = searchEmployee(employeeId);
-    if (index == -1) {
+    int find = searchEmployee(employeeId);
+    if (find == -1) {
         cout << "Employee with ID " << employeeId << " not found.\n";
         return;
     }
 
-    cout << "Enter new Position for " << employeeNames[index] << ": ";
-    cin.ignore();
-    getline(cin, employeePosition[index]);
+    cout << "---------------------------------------------------------------------------------------------------------\n";
+    cout << "|\t\t\t\t\tEmployee's Positions\t\t\t\t\t\t|\n";
+    cout << "|-------------------------------------------------------------------------------------------------------|\n";
+    cout << "|\t1. Intern\t\t\t6. Department Head\t\t11. Human Resources Manager\t|\n";
+    cout << "|\t2. Junior Staff\t\t\t7. Executive Assistant\t\t12. Sales Representative\t|\n";
+    cout << "|\t3. Senior Staff\t\t\t8. Sales Manager\t\t13. Business Analyst\t\t|\n";
+    cout << "|\t4. Team Leader\t\t\t9. Product Manager\t\t14. Assistant Manager\t\t|\n";
+    cout << "|\t5. Department Specialist\t10. Marketing Manager\t\t15. Data Analyst\t\t|\n";
+    cout << "---------------------------------------------------------------------------------------------------------\n";
+    cout << "Enter the choice of Employee's New Position (1-15): ";
+
+        int selectPosition;
+        string position;
+        while (true) {
+            cin >> selectPosition;
+            if (cin.fail() || selectPosition < 1 || selectPosition > 15) {
+                cin.clear();
+                cin.ignore(1000, '\n');
+                cout << "Invalid choice! Please select a Valid Position (1-15): ";
+            } else {
+
+                vector<string> position = {
+                    "Intern", "Junior Staff", "Senior Staff", "Team Leader", "Department Specialist",
+                    "Department Head", "Executive Assistant", "Sales Manager", "Product Manager",
+                    "Marketing Manager", "Human Resources Manager", "Sales Representative",
+                    "Business Analyst", "Assistant Manager", "Data Analyst"
+                };
+
+                employeePosition[find] = position[selectPosition - 1];
+                cout << "Position has been updated to: " << employeePosition[find] << endl;
+                break;  
+         }
+     }
 
     double newSalary;
-    cout << "Enter new salary for " << employeeNames[index] << ": ";
+    cout << "Enter new salary for " << employeeNames[find] << ": ";
     cin >> newSalary;
 
     if (newSalary >= 0) {
-        employeeSalary[index] = newSalary;
+        employeeSalary[find] = newSalary;
         cout << fixed << setprecision(2) 
              << "Salary has been updated successfully! The New Salary is: ₱" 
-             << employeeSalary[index] << '\n';
+             << employeeSalary[find] << '\n';
     } else {
         cout << "Invalid salary.\n";
     }
 }
 
 void deleteEmployee(int employeeId) {
-    int index = searchEmployee(employeeId);
-    if (index == -1) {
+    cout << "-------------------------------------------------\n";
+    int find = searchEmployee(employeeId);
+    if (find == -1) {
         cout << "Employee with ID " << employeeId << " not found.\n";
         return;
     }
 
-    // Remove the employee from the vectors
-    employeeIds.erase(employeeIds.begin() + index);
-    employeeNames.erase(employeeNames.begin() + index);
-    employeePosition.erase(employeePosition.begin() + index);
-    employeeSalary.erase(employeeSalary.begin() + index);
+    employeeIds.erase(employeeIds.begin() + find);
+    employeeNames.erase(employeeNames.begin() + find);
+    employeePosition.erase(employeePosition.begin() + find);
+    employeeSalary.erase(employeeSalary.begin() + find);
 
-    cout << "Employee has been deleted successfully!\n";
+    cout << "| Employee has been deleted successfully!\t|\n";
+    cout << "-------------------------------------------------\n";
 }
 
+void saveasTXTfile() {
+    ofstream file("EmployeesRecords.txt"); 
+    if (file.is_open()) {
+        file << "-------------------------------------------------------------------------\n";
+        file << left << setw(5) << "No"
+                << setw(10) << "Id" 
+                << setw(20) << "Name" 
+                << setw(25) << "Position" 
+                << "Salary\n";
+        file << "-------------------------------------------------------------------------\n";
+
+        for (int i = 0; i < employeeIds.size(); ++i) {
+            file<< left << setw(5) << i + 1
+                    << setw(10) << employeeIds[i]
+                    << setw(20) << employeeNames[i]
+                    << setw(25) << employeePosition[i]
+                    << "₱" << fixed << setprecision(2) << employeeSalary[i] << "\n";
+        }
+        file.close();
+        cout << "Employees records have been saved successfully to 'EmployeesRecords.txt'.\n";
+    } else {
+        cout << "Error: Unable to open file for saving employee records.\n";
+    }
+}
 int main() {
     int choice, employeeId;
-
     while (true) {
+      
         display();
         cin >> choice;
     
@@ -345,14 +357,16 @@ int main() {
             deleteEmployee(employeeId);
             break;
         case 6:
-            cout << "Exiting the Employee Management System.\n";
+            cout << "Saving as a File & Exiting the Employee Management System Program.\n";
+            saveasTXTfile();
             return 0;
         default:
-            cout << "Invalid choice. Please try again.\n";
+            cout << "Invalid choice. Please try to choose from the option.\n";
         }
     }
     return 0;
 }
+
 
 
 
