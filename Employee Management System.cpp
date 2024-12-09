@@ -22,13 +22,13 @@ int searchEmployee(int employeeId, int find = 0);
 
 void display() {
     cout << "==========================================================================\n";
-    cout << "||\t\t\tEmployee Management System\t\t\t||\n";
+    cout << "||\t\t\tApple's Employee Management System\t\t\t||\n";
     cout << "==========================================================================\n";
-    cout << "||\t\t\t1. Add New Employee's\t\t\t\t||\n";
-    cout << "||\t\t\t2. Display All Employee's\t\t\t||\n";
-    cout << "||\t\t\t3. Search Employee's Information by ID Number\t||\n";
-    cout << "||\t\t\t4. Update Employee's Position & Salary\t\t||\n";
-    cout << "||\t\t\t5. Remove Employee\t\t\t\t||\n";
+    cout << "||\t\t\t1. Add New Employee\t\t\t\t||\n";
+    cout << "||\t\t\t2. Display All Employee's Information\t\t||\n";
+    cout << "||\t\t\t3. Search Employee Information by ID Number\t||\n";
+    cout << "||\t\t\t4. Update Employee Position & Salary\t\t||\n";
+    cout << "||\t\t\t5. Delete Employee\t\t\t\t||\n";
     cout << "||\t\t\t6. Save & Exit as a Text File\t\t\t||\n";
     cout << "==========================================================================\n";
     cout << "Please Enter your choice (1-6): ";
@@ -36,7 +36,7 @@ void display() {
 }
 
 void addEmployee() {
-    cout << "Enter Employee's ID Number: ";
+    cout << "Enter Employee ID Number: ";
     int employeeId;
     while (true) {
         cin >> employeeId;
@@ -44,7 +44,7 @@ void addEmployee() {
         if (cin.fail()) {
             cin.clear();  
             cin.ignore(1000, '\n');  
-            cout << "Invalid input! Employee's ID must be a number. Please enter again: ";
+            cout << "Invalid input! Employee ID must be a number. Please enter again: ";
             continue;
         }   
 
@@ -68,7 +68,7 @@ void addEmployee() {
     employeeIds.push_back(employeeId);
 
     cin.ignore();
-    cout << "Enter Employee's Name: ";
+    cout << "Enter Employee Name: ";
     string name;
 
     while (true) {
@@ -93,7 +93,7 @@ void addEmployee() {
     }
 
     cout << "---------------------------------------------------------------------------------------------------------\n";
-    cout << "|\t\t\t\t\tEmployee's Positions\t\t\t\t\t\t|\n";
+    cout << "|\t\t\t\t\tApple's Employee Positions\t\t\t\t|\n";
     cout << "|-------------------------------------------------------------------------------------------------------|\n";
     cout << "|\t1. Intern\t\t\t6. Department Head\t\t11. Human resources manager\t|\n";
     cout << "|\t2. Junior Staff\t\t\t7. Executive Assistant\t\t12. Sales Representative\t|\n";
@@ -101,7 +101,7 @@ void addEmployee() {
     cout << "|\t4. Team Leader\t\t\t9. Product Manager\t\t14. Assistant Manager\t\t|\n";
     cout << "|\t5. Department Specialist\t10. Marketing Manager\t\t15. Data Analyst\t\t|\n";
     cout << "---------------------------------------------------------------------------------------------------------\n";
-    cout << " Enter the choice of Employee's Position (1-15): ";
+    cout << " Enter the choice of Employee Position (1-15): ";
     
     int selectPosition;
     string position;
@@ -133,7 +133,7 @@ void addEmployee() {
     employeePosition.push_back(position);
    
 
-    cout << "Enter Employee's Salary: ";
+    cout << "Enter Employee Salary: ";
     double salary;
     while (true) {
     cin >> salary;
@@ -170,8 +170,8 @@ void displayEmployees() {
         return;
     }
 
-    cout << "-----------------------------------------------------------------------\n";
-    cout << "|                       Employees Information                           |\n";
+    cout << "-------------------------------------------------------------------------\n";
+    cout << "|                      Apple's Employees Information                    |\n";
     cout << "|-----------------------------------------------------------------------|\n";
     cout << "| " << left << setw(5) << "No"  
          << setw(10) << "ID" 
@@ -199,7 +199,7 @@ void displayEmployee(int employeeId) {
         cout << "Employee with ID " << employeeId << " not found.\n";
     } else {
          cout << "-------------------------------------------------------------------------\n";
-         cout << "|\t\t\tEmployee's Information\t\t\t\t|\n";
+         cout << "|\t\t\tApple's Employee's Information\t\t\t|\n";
          cout << "|-----------------------------------------------------------------------|\n";
          cout << "|\t" << left << setw(10) << "ID" 
          << setw(20) << "Name" 
@@ -247,7 +247,7 @@ void updateEmployee(int employeeId) {
     cout << "|\t4. Team Leader\t\t\t9. Product Manager\t\t14. Assistant Manager\t\t|\n";
     cout << "|\t5. Department Specialist\t10. Marketing Manager\t\t15. Data Analyst\t\t|\n";
     cout << "---------------------------------------------------------------------------------------------------------\n";
-    cout << "Enter the choice of Employee's New Position (1-15): ";
+    cout << "Enter the choice of Employee New Position (1-15): ";
 
         int selectPosition;
         string position;
@@ -322,7 +322,7 @@ void saveasTXTfile() {
                     << "₱" << fixed << setprecision(2) << employeeSalary[i] << "\n";
         }
         file.close();
-        cout << "Employees records have been saved successfully to 'EmployeesRecords.txt'.\n";
+        cout << "Employees records have been saved successfully to 'AppleRecords.txt'.\n";
     } else {
         cout << "Error: Unable to open file for saving employee records.\n";
     }
@@ -357,7 +357,7 @@ int main() {
             deleteEmployee(employeeId);
             break;
         case 6:
-            cout << "Saving as a File & Exiting the Employee Management System Program.\n";
+            cout << "Saving as a File & Exiting the Apple's Employee Management System Program.\n";
             saveasTXTfile();
             return 0;
         default:
